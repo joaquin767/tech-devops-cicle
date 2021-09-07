@@ -12,11 +12,11 @@ jobs:
     steps:
       - checkout
       # Whatever you want to do
+      - setup_remote_docker:
+          version: 20.10.8
       - run: |
           cd app/
           docker build .
-      - setup_remote_docker:
-        version: 20.10.8
 workflows:
   # Name the workflow "welcome"
   build:
