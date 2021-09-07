@@ -37,7 +37,7 @@ jobs:
           name: deploy
           command: |
             cd app/
-            aws eks update-kubeconfig --name devops-cicle-eks  --region us-east-2 
+            aws eks update-kubeconfig --name devops-cicle-eks  --region ${AWS_REGION}
 
 workflows:
   # Name the workflow "welcome"
@@ -45,3 +45,6 @@ workflows:
     # Run the welcome/run job in its own container
     jobs:
       - docker-pkg
+  deploy:
+    jobs:
+      - deploy-to-k8s
