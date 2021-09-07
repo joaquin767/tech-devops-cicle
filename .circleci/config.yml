@@ -5,6 +5,7 @@ version: 2.1
 #   # Declare a dependency on the welcome-orb
 orbs:
   aws-cli: circleci/aws-cli@2.0
+  kubernetes: circleci/kubernetes@0.12.0
 #   welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
 jobs:
@@ -17,10 +18,24 @@ jobs:
       - setup_remote_docker:
           version: 20.10.7
       - aws-cli/setup
-      - run: |
-          cd app/
-          docker build .
-          aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+      - run:
+          name: pkg
+          command: |
+            cd app/
+            aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+            docker build . -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/clientes-app:${pipeline.id}
+            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/clientes-app:${pipeline.id}
+  deploy-to-k8s:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - aws-cli/setup
+      - run:
+          name: deploy
+          command: |
+            cd app/
+            aws eks update-kubeconfig --name devops-cicle-eks  --region us-east-2 
 
 workflows:
   # Name the workflow "welcome"
