@@ -8,7 +8,7 @@ version: 2.1
 jobs:
   docker-build:
     docker:
-      - image: cimg/base
+      - image: cimg/base:2021.07
     steps:
       - checkout
       # Whatever you want to do
