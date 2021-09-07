@@ -12,6 +12,8 @@ jobs:
   docker-pkg:
     docker:
       - image: cimg/base:2021.07
+    environment:
+      PIPELINE_ID: << pipeline.id >>
     steps:
       - checkout
       # Whatever you want to do
@@ -23,8 +25,8 @@ jobs:
           command: |
             cd app/
             aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-            docker build . -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/clientes-app:${pipeline.id}
-            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/clientes-app:${pipeline.id}
+            docker build . -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/clientes-app:${PIPELINE_ID}
+            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/clientes-app:${PIPELINE_ID}
   deploy-to-k8s:
     docker:
       - image: 'cimg/base:stable'
