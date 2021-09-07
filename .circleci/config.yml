@@ -6,7 +6,7 @@ version: 2.1
 #   welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
 jobs:
-  build:
+  docker-build:
     docker:
       - image: cimg/base:2021.07
     steps:
