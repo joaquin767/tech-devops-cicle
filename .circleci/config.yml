@@ -13,6 +13,7 @@ jobs:
       - checkout
       # Whatever you want to do
       - run: cd app/
+      - run: pwd
       - run: docker build .
 workflows:
   # Name the workflow "welcome"
