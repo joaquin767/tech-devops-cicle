@@ -8,13 +8,15 @@ version: 2.1
 jobs:
   docker-build:
     docker:
-      - image: cimg/base:2021.07
+      - image: cimg/base
     steps:
       - checkout
       # Whatever you want to do
       - run: |
           cd app/
           docker build .
+      - setup_remote_docker:
+        version: 20.10.8
 workflows:
   # Name the workflow "welcome"
   build:
