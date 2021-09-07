@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clientes-app
+  namespace: clientes
+  labels:
+    app: clientes-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clientes-app
+  template:
+    metadata:
+      labels:
+        app: clientes-app
+    spec:
+      containers:
+      - name: clientes-app
+        image: localhost:32000/clientes-app
+        envFrom:
+        - configMapRef:
+            name: clientes-settings
+        ports:
+        - containerPort: 5000
