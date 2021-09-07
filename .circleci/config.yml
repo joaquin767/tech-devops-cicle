@@ -12,9 +12,9 @@ jobs:
     steps:
       - checkout
       # Whatever you want to do
-      - run: cd app/
-      - run: pwd
-      - run: docker build .
+      - run: |
+          cd app/
+          docker build .
 workflows:
   # Name the workflow "welcome"
   build:
