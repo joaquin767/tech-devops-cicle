@@ -37,7 +37,7 @@ spec:
                 key: FLASK_APP
         volumeMounts:
         - name: clientes-cm-{{ .Values.environment }}
-          mountPath: "/app/"
+          mountPath: "/app/clientes-cm-{{ .Values.environment }}"
           readOnly: true
         - name: {{ .Values.postgresql.secretName }}
           mountPath: "/app/{{ .Values.postgresql.secretName }}"
