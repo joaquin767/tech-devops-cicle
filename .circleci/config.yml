@@ -29,6 +29,9 @@ jobs:
             docker build . -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/clientes-app:${PIPELINE_ID}
             docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/clientes-app:${PIPELINE_ID}
   deploy-to-k8s:
+    environment:
+      PIPELINE_ID: << pipeline.id >>
+      BRANCH: << pipeline.git.branch >>
     docker:
       - image: 'cimg/base:stable'
     steps:
