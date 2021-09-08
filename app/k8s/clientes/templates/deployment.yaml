@@ -30,6 +30,11 @@ spec:
               configMapKeyRef:
                 name: clientes-cm-{{ .Values.environment }}
                 key: PSQL_SETTINGS
+          - name: FLASK_APP
+            valueFrom:
+              configMapKeyRef:
+                name: clientes-cm-{{ .Values.environment }}
+                key: FLASK_APP
         volumeMounts:
         - name: clientes-cm-{{ .Values.environment }}
           mountPath: "/app/"
