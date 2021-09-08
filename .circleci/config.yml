@@ -45,9 +45,7 @@ jobs:
             aws eks update-kubeconfig --name devops-cicle-eks  --region ${AWS_REGION}
             curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
             export POSTGRES_PASSWORD=$(kubectl get secret --namespace postgresql postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode)
-            ls
-            pwd
-            helm install --set tag=$PIPELINE_ID --set postgresql.password=$POSTGRES_PASSWORD clientes-app ./app/k8s/clientes
+            helm install --set tag=$PIPELINE_ID --set postgresql.password=$POSTGRES_PASSWORD clientes-app ./k8s/clientes
 
 workflows:
   # Name the workflow "welcome"
