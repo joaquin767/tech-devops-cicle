@@ -14,6 +14,7 @@ jobs:
       - image: cimg/base:2021.07
     environment:
       PIPELINE_ID: << pipeline.id >>
+      BRANCH: << pipeline.git.branch >>
     steps:
       - checkout
       # Whatever you want to do
@@ -45,6 +46,8 @@ jobs:
             aws eks update-kubeconfig --name devops-cicle-eks  --region ${AWS_REGION}
             curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
             export POSTGRES_PASSWORD=$(kubectl get secret --namespace postgresql postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode)
+            [[ $BRANCH = "main" ]] && ENV="production" || ENV="develop"
+            eval "kubectl create namespace clientes-${ENV}"
             helm install --set tag=$PIPELINE_ID --set postgresql.password=$POSTGRES_PASSWORD clientes-app ./k8s/clientes
 
 workflows:
