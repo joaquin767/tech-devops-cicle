@@ -9,5 +9,6 @@ RUN pip3 install -r requirements.txt
 RUN apt update && apt install curl -y
 
 COPY *.py ./
-
+RUN ls
+RUN pwd
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
