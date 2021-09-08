@@ -47,7 +47,7 @@ jobs:
             curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
             export POSTGRES_PASSWORD=$(kubectl get secret --namespace postgresql postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode)
             [[ $BRANCH = "main" ]] && ENV="production" || ENV="develop"
-            eval "kubectl create namespace clientes-${ENV}"
+            [[ eval "kubectl create namespace clientes-${ENV}" -eq 0 ]] && echo "Namespace created" || echo "Namespace already exist, skipping.."
             helm upgrade --install --set tag=$PIPELINE_ID --set postgresql.password=$POSTGRES_PASSWORD clientes-app ./k8s/clientes
 
 workflows:
