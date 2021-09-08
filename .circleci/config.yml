@@ -48,7 +48,7 @@ jobs:
             export POSTGRES_PASSWORD=$(kubectl get secret --namespace postgresql postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode)
             [[ $BRANCH = "main" ]] && ENV="production" || ENV="develop"
             if [ eval "kubectl create namespace clientes-${ENV}" -eq 0 ]; then  echo "Namespace created"; else  echo "Namespace already exist, skipping.."; fi
-            helm upgrade --install --set image.tag=$PIPELINE_ID --set postgresql.password=$POSTGRES_PASSWORD clientes-app ./k8s/clientes
+            helm upgrade --force --install --set image.ktag=$PIPELINE_ID --set postgresql.password=$POSTGRES_PASSWORD clientes-app ./k8s/clientes
 
 workflows:
   # Name the workflow "welcome"
