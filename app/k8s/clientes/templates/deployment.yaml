@@ -32,7 +32,7 @@ spec:
                 key: PSQL_SETTINGS
         volumeMounts:
         - name: clientes-cm-{{ .Values.environment }}
-          mountPath: "/app/"
+          mountPath: "/app/settings.cfg"
           readOnly: true
         - name: {{ .Values.postgresql.secretName }}
           mountPath: "/app/{{ .Values.postgresql.secretName }}"
