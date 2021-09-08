@@ -45,7 +45,7 @@ spec:
           name: clientes-cm-{{ .Values.environment }}
           items:
           - key: "settings.content"
-            path: "/app/settings.cfg"
+            path: "/app/"
       - name: {{ .Values.postgresql.secretName }}
         secret:
           secretName: {{ .Values.postgresql.secretName }}

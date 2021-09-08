@@ -7,7 +7,7 @@ data:
   APP_SETTINGS: './settings.cfg'
   PSQL_SETTINGS: './psql.cfg'
   ENV: {{ .Values.environment }}
-  settings.content: |
+  settings.cfg: |
     DEBUG = False
     TESTING = False 
     CSRF_ENABLED = True
