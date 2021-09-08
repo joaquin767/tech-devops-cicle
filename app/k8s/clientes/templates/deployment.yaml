@@ -35,7 +35,7 @@ spec:
           mountPath: "/app/"
           readOnly: true
         - name: {{ .Values.postgresql.secretName }}
-          mountPath: "/app/"
+          mountPath: "/app/{{ .Values.postgresql.secretName }}"
           readOnly: true
         ports:
         - containerPort: 5000
