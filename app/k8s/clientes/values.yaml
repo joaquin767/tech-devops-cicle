@@ -1,0 +1,17 @@
+# Default values for clientes.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+environment: "develop"
+image:
+  repository: 583561627847.dkr.ecr.us-east-2.amazonaws.com/clientes-app
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+postgresql:
+  username: "postgres"
+  password: ""
+  dns: "postgresql.postgresql.svc.cluster.local"
+  dbname: "db1"
+  secretName: "psql-data"

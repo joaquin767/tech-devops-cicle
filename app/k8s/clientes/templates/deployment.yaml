@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clientes-app
+  namespace: clientes-{{ .Values.environment }}
+  labels:
+    app: clientes-app-{{ .Values.environment }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: clientes-app-{{ .Values.environment }}
+  template:
+    metadata:
+      labels:
+        app: clientes-app-{{ .Values.environment }}
+    spec:
+      containers:
+      - name: clientes-app
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag | default "latest"}}
+        env:
+          # Define the environment variable
+          - name: APP_SETTINGS # Notice that the case is different here
+            valueFrom:
+              configMapKeyRef:
+                name: clientes-cm-{{ .Values.environment }}          # The ConfigMap this value comes from.
+                key: APP_SETTINGS # The key to fetch.
+          - name: PSQL_SETTINGS
+            valueFrom:
+              configMapKeyRef:
+                name: clientes-cm-{{ .Values.environment }}
+                key: PSQL_SETTINGS
+        volumeMounts:
+        - name: clientes-cm-{{ .Values.environment }}
+          mountPath: "/app/clientes-cm-{{ .Values.environment }}"
+          readOnly: true
+        - name: {{ .Values.postgresql.secretName }}
+          mountPath: "/app/"
+          readOnly: true
+        ports:
+        - containerPort: 5000
+      volumes:
+      - name: clientes-cm-{{ .Values.environment }}
+        configMap:
+          name: clientes-cm-{{ .Values.environment }}
+          items:
+          - key: "settings.content"
+            path: "/app/settings.cfg"
+      - name: {{ .Values.postgresql.secretName }}
+        secret:
+          secretName: {{ .Values.postgresql.secretName }}
