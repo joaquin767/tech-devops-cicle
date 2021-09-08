@@ -4,8 +4,8 @@ metadata:
   name: clientes-cm-{{ .Values.environment }}
   namespace: clientes-{{ .Values.environment }}
 data:
-  APP_SETTINGS: './settings.cfg'
-  PSQL_SETTINGS: './psql.cfg'
+  APP_SETTINGS: './config/settings.cfg'
+  PSQL_SETTINGS: './.secrets/psql.cfg'
   FLASK_APP: "app.py"
   ENV: {{ .Values.environment }}
   settings.cfg: |
