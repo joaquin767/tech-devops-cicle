@@ -9,7 +9,7 @@ metadata:
   namespace: clientes-{{ .Values.environment }}
 spec:
   ports:
-  - port: 5000
+  - port: {{ .Values.port }}
     protocol: TCP
   selector:
     app: clientes-app-{{ .Values.environment }}

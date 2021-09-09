@@ -43,7 +43,7 @@ spec:
           mountPath: "/app/.secrets"
           readOnly: true
         ports:
-        - containerPort: 5000
+        - containerPort: {{ .Values.port }}
       volumes:
       - name: clientes-cm-{{ .Values.environment }}
         configMap:

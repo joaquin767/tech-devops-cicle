@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-clientes-{{ .Values.environment }}
+  annotations:
+    # use the shared ingress-nginx
+    kubernetes.io/ingress.class: "nginx"
+  namespace: clientes-{{ .Values.environment }}
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /clientes
+        pathType: Prefix
+        backend:
+          service:
+            name: clientes-svc
+            port:
+              number: {{ .Values.port }}
+---
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: ingress-clientes-svc
+# spec:
+#   rules:
+#   - host: clientes-{{ .Values.environment }}.{{ .Values.serviceName }}.cluster.local
+#     http:
+#       paths:
+#       - path: /clientes
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: {{ .Values.serviceName }}
+#             port: 
+#               number: 5000
+#   ingressClassName: nginx
+# ---

@@ -9,9 +9,11 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+serviceName: "clientes-svc"
 postgresql:
   username: "postgres"
   password: ""
   dns: "postgresql.postgresql.svc.cluster.local"
   dbname: "db1"
   secretName: "psql-data"
+port: 5000
