@@ -29,10 +29,6 @@ jobs:
     environment:
       PIPELINE_ID: << pipeline.id >>
       BRANCH: << pipeline.git.branch >>
-    branches:
-      only:
-        - develop
-        - /FB-.*/
     steps:
       - checkout
       # Whatever you want to do
@@ -50,10 +46,6 @@ jobs:
     environment:
       PIPELINE_ID: << pipeline.id >>
       BRANCH: << pipeline.git.branch >>
-    branches:
-      only:
-        - develop
-        - /FB-.*/
     steps:
       - checkout
       # Whatever you want to do
@@ -68,10 +60,6 @@ jobs:
     environment:
       PIPELINE_ID: << pipeline.id >>
       BRANCH: << pipeline.git.branch >>
-    branches:
-      only:
-        - develop
-        - main
     docker:
       - image: 'cimg/base:stable'
     steps:
@@ -99,13 +87,15 @@ workflows:
       - pylint: 
           filters:
             branches:
-              ignore:
-                - main
+              only:
+                - develop
+                - /FB-.*/
       - helm-lint:
           filters:
             branches:
-              ignore:
-                - main
+              only:
+                - develop
+                - /FB-.*/
       - docker-pkg:
           filters:
             branches:
