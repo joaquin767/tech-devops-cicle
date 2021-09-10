@@ -17,4 +17,4 @@ USER 1001
 EXPOSE 8080
 WORKDIR /opt/microservices/
 
-CMD ["python", "app.py", "8080"]
+CMD ["python", "app.py"]
