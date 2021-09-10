@@ -15,6 +15,7 @@ from models import Client
 
 @app.route("/")
 def index():
+    app.logger.info("request int path /")
     return "This is the app index"
 
 # Add client and money
@@ -31,6 +32,7 @@ def add_client():
         )
         db.session.add(client)
         db.session.commit()
+        app.logger.info("Client added with id={}".format(client.id))
         return "Client added with id={}".format(client.id)
     except Exception as error:
         return str(error)
