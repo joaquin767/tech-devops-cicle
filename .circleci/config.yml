@@ -40,6 +40,7 @@ jobs:
             pip3 install pylint
             cd app/
             pylint *.py --disable=missing-docstring 
+            if [ $? -eq 0 ]; then  echo "Lint score is above 9.0. Passed!"; else  echo "Fail... Score is under 9.0"; fi
   helm-lint:
     docker:
       - image: cimg/base:2021.07

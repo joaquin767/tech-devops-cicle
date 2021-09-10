@@ -16,4 +16,4 @@ postgresql:
   dns: "postgresql.postgresql.svc.cluster.local"
   dbname: "db1"
   secretName: "psql-data"
-port: 8080
+port: 5000
