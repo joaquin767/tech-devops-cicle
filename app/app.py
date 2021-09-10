@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from models import Client
+
 
 app = Flask(__name__)
 
@@ -9,6 +9,7 @@ app.config.from_envvar('PSQL_SETTINGS')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+from models import Client
 
 # Index
 
