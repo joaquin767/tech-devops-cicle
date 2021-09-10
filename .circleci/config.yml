@@ -10,6 +10,10 @@ jobs:
     environment:
       PIPELINE_ID: << pipeline.id >>
       BRANCH: << pipeline.git.branch >>
+    branches:
+      only:
+        - develop
+        - main
     steps:
       - checkout
       # Whatever you want to do
@@ -23,10 +27,55 @@ jobs:
             aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
             docker build . -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/clientes-app:${PIPELINE_ID}
             docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/clientes-app:${PIPELINE_ID}
+  pylint:
+    docker:
+      - image: cimg/python:3.9.7
+    environment:
+      PIPELINE_ID: << pipeline.id >>
+      BRANCH: << pipeline.git.branch >>
+    branches:
+      only:
+        - develop
+        - /FB-.*/
+    steps:
+      - checkout
+      # Whatever you want to do
+      - setup_remote_docker:
+          version: 20.10.7
+      - run:
+          name: test
+          command: |
+            pip3 install pylint
+            cd app/
+            pylint *.py --disable=missing-docstring 
+  helm-lint:
+    docker:
+      - image: cimg/base:2021.07
+    environment:
+      PIPELINE_ID: << pipeline.id >>
+      BRANCH: << pipeline.git.branch >>
+    branches:
+      only:
+        - develop
+        - /FB-.*/
+    steps:
+      - checkout
+      # Whatever you want to do
+      - setup_remote_docker:
+          version: 20.10.7
+      - run:
+          name: test
+          command: |
+            curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+            helm lint app/k8s/clientes
   deploy-to-k8s:
     environment:
       PIPELINE_ID: << pipeline.id >>
       BRANCH: << pipeline.git.branch >>
+    branches:
+      only:
+        - develop
+        - main
     docker:
       - image: 'cimg/base:stable'
     steps:
@@ -51,7 +100,12 @@ jobs:
 workflows:
   build:
     jobs:
-      - docker-pkg
-  deploy:
-    jobs:
+      - pylint
+      - helm-lint
+      - docker-pkg:
+          requires:
+            - pylint
+            - helm-lint
+      # - functional-test
       - deploy-to-k8s
+      
