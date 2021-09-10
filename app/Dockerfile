@@ -10,4 +10,6 @@ RUN apt update && apt install curl -y
 
 COPY *.py ./
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+EXPOSE 8080
+
+CMD ["python", "app.py", "8080"]
