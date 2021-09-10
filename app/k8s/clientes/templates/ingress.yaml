@@ -14,9 +14,9 @@ spec:
               pathType: Prefix
               backend:
                 service:
-                  name: clientes-app
+                  name: clientes-svc
                   port:
-                    number: 5000
+                    number: 8080
 ---
 
 # apiVersion: networking.k8s.io/v1
