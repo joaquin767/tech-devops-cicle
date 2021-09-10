@@ -10,10 +10,6 @@ jobs:
     environment:
       PIPELINE_ID: << pipeline.id >>
       BRANCH: << pipeline.git.branch >>
-    branches:
-      only:
-        - develop
-        - main
     steps:
       - checkout
       # Whatever you want to do
@@ -100,12 +96,32 @@ jobs:
 workflows:
   build:
     jobs:
-      - pylint
-      - helm-lint
+      - pylint: 
+          filters:
+            branches:
+              ignore:
+                - main
+      - helm-lint:
+          filters:
+            branches:
+              ignore:
+                - main
       - docker-pkg:
+          filters:
+            branches:
+              only:
+                - develop
+                - main
           requires:
             - pylint
             - helm-lint
       # - functional-test
-      - deploy-to-k8s
+      - deploy-to-k8s:
+          requires:
+            - pylint
+          filters:
+            branches:
+              only:
+                - develop
+                - main
       
