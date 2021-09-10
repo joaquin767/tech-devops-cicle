@@ -10,4 +10,4 @@ RUN apt update && apt install curl -y
 
 COPY *.py ./
 
-CMD [ "python3", "-m" , "flask", "run"]
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
