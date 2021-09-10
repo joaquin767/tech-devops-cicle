@@ -1,20 +1,13 @@
-FROM python:3.7.7-slim
+FROM python:3.8-slim-buster
 
-ENV PYTHONUNBUFFERED=1
+WORKDIR /app
 
-COPY * /opt/microservices/
-COPY requirements.txt /opt/microservices/
-RUN pip install --upgrade pip \
-  && pip install --upgrade pipenv\
-  && apt-get clean \
-  && apt-get update \
-  && apt install -y build-essential \
-  && apt install -y libmariadb3 libmariadb-dev \
-  && pip install --upgrade -r /opt/microservices/requirements.txt
+COPY requirements.txt requirements.txt
 
-USER 1001
+RUN pip3 install -r requirements.txt
 
-EXPOSE 8080
-WORKDIR /opt/microservices/
+RUN apt update && apt install curl -y
 
-CMD ["python", "app.py"]
+COPY .py .
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
