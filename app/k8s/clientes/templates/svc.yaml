@@ -4,7 +4,7 @@ kind: Service
 metadata:
   annotations: {}
   labels:
-    service: clientes-svc
+    app: clientes-svc
   name: clientes-svc
   namespace: clientes-{{ .Values.environment }}
 spec:
