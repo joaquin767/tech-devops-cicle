@@ -108,7 +108,7 @@ workflows:
       # - functional-test
       - deploy-to-k8s:
           requires:
-            - pylint
+            - docker-pkg
           filters:
             branches:
               only:
